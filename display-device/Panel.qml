@@ -84,22 +84,19 @@ Item {
                 color: Color.mPrimary
               }
 
-              Repeater {
-                model: AudioService.sinks
-                NRadioButton {
-                  ButtonGroup.group: devices
-                  pointSize: Style.fontSizeS
-                  text: 'pc-gambled'
-                  checked: true
-                  Process {
-                    id: ddPcGambled
-                    command: "display-device -d pc-gambled"
-                  }
-                  onClicked: {
-                    ddPcGambled.startDetached()
-                  }
-                  Layout.fillWidth: true
+              NRadioButton {
+                ButtonGroup.group: devices
+                pointSize: Style.fontSizeS
+                text: 'pc-gambled'
+                checked: true
+                Process {
+                  id: ddPcGambled
+                  command: "display-device -d pc-gambled"
                 }
+                onClicked: {
+                  ddPcGambled.startDetached()
+                }
+                Layout.fillWidth: true
               }
             }
           }
