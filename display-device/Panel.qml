@@ -20,8 +20,8 @@ Item {
   // SmartPanel
   readonly property var geometryPlaceholder: panelContainer
 
-  property real contentPreferredWidth: panelContainer.implicitHeight * Style.uiScaleRatio
-  property real contentPreferredHeight: panelContainer.implicitHeight * Style.uiScaleRatio
+  // property real contentPreferredWidth: panelContainer. * Style.uiScaleRatio
+  property real contentPreferredHeight: panelContainer.implicitHeight + Style.margin2L
 
   readonly property bool allowAttach: true
   // readonly property bool panelAnchorHorizontalCenter: true
@@ -41,7 +41,7 @@ Item {
 
   Rectangle {
     id: panelContainer
-    anchors.fill: parent
+    // anchors.fill: parent
     color: "transparent"
 
     ColumnLayout {
