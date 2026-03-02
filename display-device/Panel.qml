@@ -62,6 +62,37 @@ Item {
           anchors.centerIn: parent
           spacing: Style.marginL
 
+          // Process to get all display devices
+          Process {
+            id: listDevicesProcess
+            command: "display-device -a"
+            running: true
+            
+            onExited: {
+              if (exitCode === 0) {
+                var lines = stdout.trim().split('\n')
+                devicesModel.clear()
+                for (var i = 0; i < lines.length; i++) {
+                  var line = lines[i].trim()
+                  // Skip the header line and empty lines
+                  if (line && line !== "Display device script") {
+                    devicesModel.append({deviceName: line})
+                  }
+                }
+              }
+            }
+          }
+
+          // Model to store device names
+          ListModel {
+            id: devicesModel
+          }
+
+          // Process to switch devices
+          Process {
+            id: switchDeviceProcess
+          }
+
           ButtonGroup {
             id: devices
           }
@@ -84,19 +115,19 @@ Item {
                 color: Color.mPrimary
               }
 
-              NRadioButton {
-                ButtonGroup.group: devices
-                pointSize: Style.fontSizeS
-                text: 'pc-gambled'
-                checked: true
-                Process {
-                  id: ddPcGambled
-                  command: "display-device -d pc-gambled"
+              Repeater {
+                model: devicesModel
+                NRadioButton {
+                  ButtonGroup.group: devices
+                  pointSize: Style.fontSizeS
+                  text: deviceName
+                  checked: index === 0
+                  onClicked: {
+                    switchDeviceProcess.command = "display-device -d " + deviceName
+                    switchDeviceProcess.startDetached()
+                  }
+                  Layout.fillWidth: true
                 }
-                onClicked: {
-                  ddPcGambled.startDetached()
-                }
-                Layout.fillWidth: true
               }
             }
           }
