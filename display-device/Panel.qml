@@ -84,34 +84,22 @@ Item {
                 color: Color.mPrimary
               }
 
-              NRadioButton {
-                ButtonGroup.group: devices
-                pointSize: Style.fontSizeS
-                text: 'pc-gambled'
-                checked: true
-                Process {
-                  id: ddPcGambled
-                  command: "display-device -d pc-gambled"
+              Repeater {
+                model: AudioService.sinks
+                NRadioButton {
+                  ButtonGroup.group: devices
+                  pointSize: Style.fontSizeS
+                  text: 'pc-gambled'
+                  checked: true
+                  Process {
+                    id: ddPcGambled
+                    command: "display-device -d pc-gambled"
+                  }
+                  onClicked: {
+                    ddPcGambled.startDetached()
+                  }
+                  Layout.fillWidth: true
                 }
-                onClicked: {
-                  ddPcGambled.startDetached()
-                }
-                Layout.fillWidth: true
-              }
-
-              NRadioButton {
-                ButtonGroup.group: devices
-                pointSize: Style.fontSizeS
-                text: 'steamdeck'
-                checked: true
-                Process {
-                  id: ddSteamdeck
-                  command: "display-device -d steamdeck"
-                }
-                onClicked: {
-                  ddSteamdeck.startDetached()
-                }
-                Layout.fillWidth: true
               }
             }
           }
