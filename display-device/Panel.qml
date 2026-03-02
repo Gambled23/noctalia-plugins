@@ -59,7 +59,8 @@ Item {
         radius: Style.radiusL
 
         ColumnLayout {
-          anchors.centerIn: parent
+          anchors.fill: parent
+          anchors.margins: Style.marginM
           spacing: Style.marginL
 
           // Process to get all display devices
