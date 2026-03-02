@@ -3,6 +3,8 @@ import QtQuick.Layouts
 import qs.Commons
 import qs.Services.UI
 import qs.Widgets
+import Quickshell
+import Quickshell.Io
 
 // Panel Component
 Item {
