@@ -54,7 +54,7 @@ Item {
       // Content area
       Rectangle {
         Layout.fillWidth: true
-        Layout.fillHeight: true
+        Layout.preferredHeight: contentLayout.implicitHeight + 2 * Style.marginM
         color: Color.mSurfaceVariant
         radius: Style.radiusL
 
@@ -110,38 +110,24 @@ Item {
             id: devices
           }
 
-          NBox {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+          NText {
+            text: 'Display Device'
+            pointSize: Style.fontSizeL
+            color: Color.mPrimary
+          }
 
-            ColumnLayout {
-              id: outputColumn
-              anchors.left: parent.left
-              anchors.right: parent.right
-              anchors.top: parent.top
-              anchors.margins: Style.marginM
-              spacing: Style.marginS
-
-              NText {
-                text: 'Display Device'
-                pointSize: Style.fontSizeL
-                color: Color.mPrimary
+          Repeater {
+            model: devicesModel
+            NRadioButton {
+              ButtonGroup.group: devices
+              pointSize: Style.fontSizeS
+              text: deviceName
+              checked: index === 0
+              onClicked: {
+                switchDeviceProcess.command = ["display-device", "-d", deviceName]
+                switchDeviceProcess.startDetached()
               }
-
-              Repeater {
-                model: devicesModel
-                NRadioButton {
-                  ButtonGroup.group: devices
-                  pointSize: Style.fontSizeS
-                  text: deviceName
-                  checked: index === 0
-                  onClicked: {
-                    switchDeviceProcess.command = ["display-device", "-d", deviceName]
-                    switchDeviceProcess.startDetached()
-                  }
-                  Layout.fillWidth: true
-                }
-              }
+              Layout.fillWidth: true
             }
           }
         }
