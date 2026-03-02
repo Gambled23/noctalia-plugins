@@ -65,7 +65,7 @@ Item {
           // Process to get all display devices
           Process {
             id: listDevicesProcess
-            command: "display-device -a"
+            command: ["display-device", "-a"]
             running: true
             
             onExited: {
@@ -123,7 +123,7 @@ Item {
                   text: deviceName
                   checked: index === 0
                   onClicked: {
-                    switchDeviceProcess.command = "display-device -d " + deviceName
+                    switchDeviceProcess.command = ["display-device", "-d", deviceName]
                     switchDeviceProcess.startDetached()
                   }
                   Layout.fillWidth: true
