@@ -1,0 +1,29 @@
+{
+  "id": "display-device",
+  "name": "Display Device",
+  "version": "0.1",
+  "minNoctaliaVersion": "4.1.2",
+  "author": "Gambled23",
+  "official": false,
+  "license": "MIT",
+  "repository": "https://github.com/Gambled23/noctalia-plugins",
+  "description": "A plugin to change my display device on hyprland",
+  "tags": ["Display"],
+  "entryPoints": {
+    "main": "Main.qml",
+    "barWidget": "BarWidget.qml",
+    "desktopWidget": "DesktopWidget.qml",
+    "controlCenterWidget": "ControlCenterWidget.qml",
+    "panel": "Panel.qml",
+    "settings": "Settings.qml"
+  },
+  "dependencies": {
+    "plugins": []
+  },
+  "metadata": {
+    "defaultSettings": {
+      "message": "Hello World",
+      "iconColor": "none"
+    }
+  }
+}
