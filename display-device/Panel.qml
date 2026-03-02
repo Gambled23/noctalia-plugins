@@ -65,33 +65,26 @@ Item {
           // Process to get all display devices
           Process {
             id: listDevicesProcess
-            command: ["display-device", "-a"]
-            running: true
+            command: ["sh", "-c", "display-device -a"]
             
-            onExited: function(exitCode, exitStatus) {
-              Logger.i("DisplayDevice", "Process exited with code: " + exitCode)
-              Logger.i("DisplayDevice", "stdout: " + stdout)
-              Logger.i("DisplayDevice", "stderr: " + stderr)
-              
-              if (exitCode === 0 && stdout) {
-                var output = stdout.trim()
-                if (output) {
-                  var lines = output.split('\n')
-                  devicesModel.clear()
-                  Logger.i("DisplayDevice", "Found " + lines.length + " lines")
-                  for (var i = 0; i < lines.length; i++) {
-                    var line = lines[i].trim()
-                    Logger.i("DisplayDevice", "Line " + i + ": '" + line + "'")
-                    // Skip the header line and empty lines
-                    if (line && line !== "Display device script") {
-                      devicesModel.append({deviceName: line})
-                      Logger.i("DisplayDevice", "Added device: " + line)
-                    }
+            stdout: SplitParser {
+              id: devicesParser
+              onRead: function(data) {
+                Logger.i("DisplayDevice", "Read data: " + data)
+                var lines = data.trim().split('\n')
+                devicesModel.clear()
+                for (var i = 0; i < lines.length; i++) {
+                  var line = lines[i].trim()
+                  if (line && line !== "Display device script") {
+                    devicesModel.append({deviceName: line})
+                    Logger.i("DisplayDevice", "Added device: " + line)
                   }
-                  Logger.i("DisplayDevice", "Total devices in model: " + devicesModel.count)
                 }
+                Logger.i("DisplayDevice", "Total devices: " + devicesModel.count)
               }
             }
+            
+            running: true
           }
 
           // Model to store device names
