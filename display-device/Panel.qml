@@ -57,74 +57,73 @@ Item {
         anchors.fill: parent
         anchors.margins: Style.marginM
         spacing: Style.marginL
-
-          // Process to get all display devices
-          Process {
-            id: listDevicesProcess
-            command: ["sh", "-c", "display-device -a"]
-            
-            property string fullOutput: ""
-            
-            stdout: SplitParser {
-              id: devicesParser
-              onRead: function(data) {
-                listDevicesProcess.fullOutput += data + "\n"
-              }
+        // Process to get all display devices
+        Process {
+          id: listDevicesProcess
+          command: ["sh", "-c", "display-device -a"]
+          
+          property string fullOutput: ""
+          
+          stdout: SplitParser {
+            id: devicesParser
+            onRead: function(data) {
+              listDevicesProcess.fullOutput += data + "\n"
             }
-            
-            onExited: function(exitCode, exitStatus) {
-              if (exitCode === 0) {
-                var lines = listDevicesProcess.fullOutput.trim().split('\n')
-                devicesModel.clear()
-                for (var i = 0; i < lines.length; i++) {
-                  var line = lines[i].trim()
-                  if (line && line !== "Display device script") {
-                    devicesModel.append({deviceName: line})
-                    Logger.i("DisplayDevice", "Added device: " + line)
-                  }
+          }
+          
+          onExited: function(exitCode, exitStatus) {
+            if (exitCode === 0) {
+              var lines = listDevicesProcess.fullOutput.trim().split('\n')
+              devicesModel.clear()
+              for (var i = 0; i < lines.length; i++) {
+                var line = lines[i].trim()
+                if (line && line !== "Display device script") {
+                  devicesModel.append({deviceName: line})
+                  Logger.i("DisplayDevice", "Added device: " + line)
                 }
-                Logger.i("DisplayDevice", "Total devices: " + devicesModel.count)
               }
+              Logger.i("DisplayDevice", "Total devices: " + devicesModel.count)
             }
-            
-            running: true
           }
+          
+          running: true
+        }
 
-          // Model to store device names
-          ListModel {
-            id: devicesModel
-          }
+        // Model to store device names
+        ListModel {
+          id: devicesModel
+        }
 
-          // Process to switch devices
-          Process {
-            id: switchDeviceProcess
-          }
+        // Process to switch devices
+        Process {
+          id: switchDeviceProcess
+        }
 
-          ButtonGroup {
-            id: devices
-          }
+        ButtonGroup {
+          id: devices
+        }
 
-          NText {
-            text: 'Display Device'
-            pointSize: Style.fontSizeL
-            color: Color.mPrimary
-          }
+        NText {
+          text: 'Display Device'
+          pointSize: Style.fontSizeL
+          color: Color.mPrimary
+        }
 
-          Repeater {
-            model: devicesModel
-            NRadioButton {
-              ButtonGroup.group: devices
-              pointSize: Style.fontSizeS
-              text: deviceName
-              checked: index === 0
-              onClicked: {
-                switchDeviceProcess.command = ["display-device", "-d", deviceName]
-                switchDeviceProcess.startDetached()
-              }
-              Layout.fillWidth: true
+        Repeater {
+          model: devicesModel
+          NRadioButton {
+            ButtonGroup.group: devices
+            pointSize: Style.fontSizeS
+            text: deviceName
+            checked: index === 0
+            onClicked: {
+              switchDeviceProcess.command = ["display-device", "-d", deviceName]
+              switchDeviceProcess.startDetached()
             }
+            Layout.fillWidth: true
           }
         }
       }
     }
   }
+}
