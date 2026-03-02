@@ -54,11 +54,12 @@ Item {
       // Content area
       Rectangle {
         Layout.fillWidth: true
-        Layout.fillHeight: true
+        Layout.preferredHeight: contentLayout.implicitHeight + 2 * Style.marginM
         color: Color.mSurfaceVariant
         radius: Style.radiusL
 
         ColumnLayout {
+          id: contentLayout
           anchors.fill: parent
           anchors.margins: Style.marginM
           spacing: Style.marginL
@@ -68,11 +69,18 @@ Item {
             id: listDevicesProcess
             command: ["sh", "-c", "display-device -a"]
             
+            property string fullOutput: ""
+            
             stdout: SplitParser {
               id: devicesParser
               onRead: function(data) {
-                Logger.i("DisplayDevice", "Read data: " + data)
-                var lines = data.trim().split('\n')
+                listDevicesProcess.fullOutput += data + "\n"
+              }
+            }
+            
+            onExited: function(exitCode, exitStatus) {
+              if (exitCode === 0) {
+                var lines = listDevicesProcess.fullOutput.trim().split('\n')
                 devicesModel.clear()
                 for (var i = 0; i < lines.length; i++) {
                   var line = lines[i].trim()
