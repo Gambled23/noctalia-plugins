@@ -31,7 +31,7 @@ Item {
   // readonly property bool panelAnchorLeft: false
   // readonly property bool panelAnchorRight: false
 
-  anchors.fill: parent
+  // anchors.fill: parent
 
   Component.onCompleted: {
     if (pluginApi) {
@@ -41,12 +41,12 @@ Item {
 
   Rectangle {
     id: panelContainer
-    anchors.fill: parent
+    // anchors.fill: parent
     color: "transparent"
 
     ColumnLayout {
       anchors {
-        fill: parent
+        // fill: parent
         margins: Style.marginL
       }
       spacing: Style.marginL
