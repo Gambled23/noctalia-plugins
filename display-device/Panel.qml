@@ -20,8 +20,8 @@ Item {
   // SmartPanel
   readonly property var geometryPlaceholder: panelContainer
 
-  // property real contentPreferredWidth: panelContainer. * Style.uiScaleRatio
-  property real contentPreferredHeight: contentBox.implicitHeight + Style.margin2L
+property real contentPreferredWidth: 400 * Style.uiScaleRatio
+property real contentPreferredHeight: 300 * Style.uiScaleRatio
 
   readonly property bool allowAttach: true
   // readonly property bool panelAnchorHorizontalCenter: true
