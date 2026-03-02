@@ -93,11 +93,11 @@ Item {
                 text: 'pc-gambled'
                 checked: true
                 Process {
-                    id: dd-pc-gambled
+                    id: ddPcGambled
                     command: "display-device -d pc-gambled"
                 }
                 onClicked: {
-                  dd-pc-gambled.start()
+                  ddPcGambled.start()
                 }
                 Layout.fillWidth: true
                 }
