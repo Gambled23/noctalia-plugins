@@ -44,19 +44,24 @@ Item {
     anchors.fill: parent
     color: "transparent"
 
-    NBox {
+    ColumnLayout {
       anchors {
         fill: parent
         margins: Style.marginL
       }
-      color: Color.mSurfaceVariant
-      radius: Style.radiusL
+      spacing: Style.marginL
 
-      ColumnLayout {
-        id: contentLayout
-        anchors.fill: parent
-        anchors.margins: Style.marginM
-        spacing: Style.marginL
+      NBox {
+        Layout.fillWidth: true
+        Layout.preferredHeight: contentLayout.implicitHeight + 2 * Style.marginM
+        color: Color.mSurfaceVariant
+        radius: Style.radiusL
+
+        ColumnLayout {
+          id: contentLayout
+          anchors.fill: parent
+          anchors.margins: Style.marginM
+          spacing: Style.marginL
         // Process to get all display devices
         Process {
           id: listDevicesProcess
