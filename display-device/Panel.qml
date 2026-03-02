@@ -64,20 +64,43 @@ Item {
             color: Color.mPrimary
           }
 
-          // Button to open plugin settings - demonstrates using panelOpenScreen
-          NButton {
-            Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: Style.marginL
-            text: pluginApi?.tr("panel.open-settings") || "Open Plugin Settings"
-            icon: "settings"
+          ButtonGroup {
+            id: devices
+          }
 
-            onClicked: {
-              // Use panelOpenScreen to get the screen this panel is on
-              var screen = pluginApi?.panelOpenScreen;
-              if (screen && pluginApi?.manifest) {
-                Logger.i("DisplayDevice", "Opening plugin settings on screen:", screen.name);
-                BarService.openPluginSettings(screen, pluginApi.manifest);
+          NBox {
+            Layout.fillWidth: true
+            Layout.preferredHeight: outputColumn.implicitHeight + Style.margin2M
+
+            ColumnLayout {
+              id: outputColumn
+              anchors.left: parent.left
+              anchors.right: parent.right
+              anchors.top: parent.top
+              anchors.margins: Style.marginM
+              spacing: Style.marginS
+
+              NText {
+                text: 'Display Device'
+                pointSize: Style.fontSizeL
+                color: Color.mPrimary
               }
+
+              NRadioButton {
+                ButtonGroup.group: devices
+                required property var deviceInfo
+                pointSize: Style.fontSizeS
+                text: 'pc-gambled'
+                checked: true
+                Process {
+                    id: dd-pc-gambled
+                    command: "display-device -d pc-gambled"
+                }
+                onClicked: {
+                  dd-pc-gambled.start()
+                }
+                Layout.fillWidth: true
+                }
             }
           }
         }
