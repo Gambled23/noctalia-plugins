@@ -21,7 +21,7 @@ Item {
   readonly property var geometryPlaceholder: panelContainer
 
   property real contentPreferredWidth: 440 * Style.uiScaleRatio
-  property real contentPreferredHeight: 580 * Style.uiScaleRatio
+  property real contentPreferredHeight: 300 * Style.uiScaleRatio
 
   readonly property bool allowAttach: true
   // readonly property bool panelAnchorHorizontalCenter: true
@@ -41,12 +41,12 @@ Item {
 
   Rectangle {
     id: panelContainer
-    // anchors.fill: parent
+    anchors.fill: parent
     color: "transparent"
 
     ColumnLayout {
       anchors {
-        // fill: parent
+        fill: parent
         margins: Style.marginL
       }
       spacing: Style.marginL
