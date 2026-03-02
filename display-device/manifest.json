@@ -12,8 +12,6 @@
   "entryPoints": {
     "main": "Main.qml",
     "barWidget": "BarWidget.qml",
-    "desktopWidget": "DesktopWidget.qml",
-    "controlCenterWidget": "ControlCenterWidget.qml",
     "panel": "Panel.qml",
     "settings": "Settings.qml"
   },
