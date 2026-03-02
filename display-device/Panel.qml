@@ -54,7 +54,7 @@ Item {
       // Content area
       Rectangle {
         Layout.fillWidth: true
-        Layout.preferredHeight: contentLayout.implicitHeight + 2 * Style.marginM
+        Layout.fillHeight: true
         color: Color.mSurfaceVariant
         radius: Style.radiusL
 
@@ -112,7 +112,7 @@ Item {
 
           NBox {
             Layout.fillWidth: true
-            Layout.preferredHeight: outputColumn.implicitHeight + Style.margin2M
+            Layout.fillHeight: true
 
             ColumnLayout {
               id: outputColumn
