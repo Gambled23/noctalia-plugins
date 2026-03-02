@@ -21,7 +21,7 @@ Item {
   readonly property var geometryPlaceholder: panelContainer
 
   // property real contentPreferredWidth: panelContainer. * Style.uiScaleRatio
-  property real contentPreferredHeight: panelContainer.implicitHeight + Style.margin2L
+  property real contentPreferredHeight: contentBox.implicitHeight + Style.margin2L
 
   readonly property bool allowAttach: true
   // readonly property bool panelAnchorHorizontalCenter: true
@@ -52,6 +52,7 @@ Item {
       spacing: Style.marginL
 
       NBox {
+        id: contentBox
         Layout.fillWidth: true
         Layout.preferredHeight: contentLayout.implicitHeight + 2 * Style.marginM
         color: Color.mSurfaceVariant
