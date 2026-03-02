@@ -1,10 +1,14 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import qs.Commons
 import qs.Services.UI
 import qs.Widgets
-import Quickshell
+import qs.Modules.MainScreen
+import qs.Services.Media
 import Quickshell.Io
+import Quickshell.Services.Pipewire
+import Quickshell.Widgets
 
 // Panel Component
 Item {
