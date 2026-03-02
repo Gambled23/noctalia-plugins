@@ -94,7 +94,6 @@ Item {
 
               NRadioButton {
                 ButtonGroup.group: devices
-                required property var deviceInfo
                 pointSize: Style.fontSizeS
                 text: 'pc-gambled'
                 checked: true
