@@ -68,15 +68,18 @@ Item {
             command: ["display-device", "-a"]
             running: true
             
-            onExited: {
-              if (exitCode === 0) {
-                var lines = stdout.trim().split('\n')
-                devicesModel.clear()
-                for (var i = 0; i < lines.length; i++) {
-                  var line = lines[i].trim()
-                  // Skip the header line and empty lines
-                  if (line && line !== "Display device script") {
-                    devicesModel.append({deviceName: line})
+            onExited: function(exitCode, exitStatus) {
+              if (exitCode === 0 && stdout) {
+                var output = stdout.trim()
+                if (output) {
+                  var lines = output.split('\n')
+                  devicesModel.clear()
+                  for (var i = 0; i < lines.length; i++) {
+                    var line = lines[i].trim()
+                    // Skip the header line and empty lines
+                    if (line && line !== "Display device script") {
+                      devicesModel.append({deviceName: line})
+                    }
                   }
                 }
               }
