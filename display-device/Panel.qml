@@ -52,7 +52,7 @@ Item {
       spacing: Style.marginL
 
       // Content area
-      Rectangle {
+      NBox {
         Layout.fillWidth: true
         Layout.preferredHeight: contentLayout.implicitHeight + 2 * Style.marginM
         color: Color.mSurfaceVariant
