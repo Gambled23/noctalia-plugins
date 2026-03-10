@@ -1,7 +1,7 @@
 {
   "id": "display-device",
   "name": "Display Device",
-  "version": "0.4.0",
+  "version": "1.0",
   "minNoctaliaVersion": "4.1.2",
   "author": "Gambled23",
   "official": false,
@@ -17,11 +17,5 @@
   },
   "dependencies": {
     "plugins": []
-  },
-  "metadata": {
-    "defaultSettings": {
-      "message": "Hello World",
-      "iconColor": "none"
-    }
   }
 }
