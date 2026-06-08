@@ -17,6 +17,8 @@ Item {
   // Plugin API (injected by PluginPanelSlot)
   property var pluginApi: null
 
+  property string activeDevice: ""
+
   // SmartPanel
   readonly property var geometryPlaceholder: panelContainer
 
@@ -89,10 +91,96 @@ Item {
                   }
                 }
                 Logger.i("DisplayDevice", "Total devices: " + devicesModel.count)
+                
+                // Trigger the restore process after we get all devices
+                restoreProcess.running = true
               }
             }
             
             running: true
+          }
+
+          // Process to restore display configuration on startup and determine active device
+          Process {
+            id: restoreProcess
+            command: ["sh", "-c", "display-device -r"]
+            
+            property string fullOutput: ""
+            
+            stdout: SplitParser {
+              id: restoreParser
+              onRead: function(data) {
+                restoreProcess.fullOutput += data + "\n"
+              }
+            }
+            
+            onExited: function(exitCode, exitStatus) {
+              if (exitCode === 0) {
+                var lines = restoreProcess.fullOutput.trim().split('\n')
+                var found = false
+                for (var i = 0; i < lines.length; i++) {
+                  var line = lines[i].trim()
+                  if (line) {
+                    for (var j = 0; j < devicesModel.count; j++) {
+                      var dev = devicesModel.get(j).deviceName
+                      if (line === dev || line.indexOf(dev) !== -1) {
+                        root.activeDevice = dev
+                        Logger.i("DisplayDevice", "Restored active device: " + dev)
+                        found = true
+                        break
+                      }
+                    }
+                  }
+                  if (found) break
+                }
+                
+                if (!found) {
+                  Logger.w("DisplayDevice", "Active device not found in -r output, querying -c")
+                  currentProcess.running = true
+                }
+              }
+            }
+            
+            running: false
+          }
+
+          // Process to query current display configuration if -r didn't output it
+          Process {
+            id: currentProcess
+            command: ["sh", "-c", "display-device -c"]
+            
+            property string fullOutput: ""
+            
+            stdout: SplitParser {
+              id: currentParser
+              onRead: function(data) {
+                currentProcess.fullOutput += data + "\n"
+              }
+            }
+            
+            onExited: function(exitCode, exitStatus) {
+              if (exitCode === 0) {
+                var lines = currentProcess.fullOutput.trim().split('\n')
+                var found = false
+                for (var i = 0; i < lines.length; i++) {
+                  var line = lines[i].trim()
+                  if (line) {
+                    for (var j = 0; j < devicesModel.count; j++) {
+                      var dev = devicesModel.get(j).deviceName
+                      if (line === dev || line.indexOf(dev) !== -1) {
+                        root.activeDevice = dev
+                        Logger.i("DisplayDevice", "Found active device from -c: " + dev)
+                        found = true
+                        break
+                      }
+                    }
+                  }
+                  if (found) break
+                }
+              }
+            }
+            
+            running: false
           }
 
           // Model to store device names
@@ -121,8 +209,9 @@ Item {
               ButtonGroup.group: devices
               pointSize: Style.fontSizeS
               text: deviceName
-              checked: index === 0
+              checked: deviceName === root.activeDevice
               onClicked: {
+                root.activeDevice = deviceName
                 switchDeviceProcess.command = ["display-device", "-d", deviceName]
                 switchDeviceProcess.startDetached()
               }
