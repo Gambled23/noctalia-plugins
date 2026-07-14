@@ -6,7 +6,7 @@ author       = "gambled23"
 
 [[widget]]
 id    = "mangowm-keymode"
-entry = "widget.luau"
+entry = "keymode.luau"
 
   [[widget.setting]]
   key       = "show_text"
